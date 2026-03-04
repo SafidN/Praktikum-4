@@ -16,6 +16,17 @@
         $stmt->execute();
         return $stmt;
     }
+    public function search($keyword) {
+    $query = "SELECT * FROM " . $this->table_name . " 
+            WHERE nama LIKE ? 
+            OR npm LIKE ? 
+            OR jurusan LIKE ?
+            ORDER BY id DESC";
+    $stmt = $this->conn->prepare($query);
+    $keyword = "%{$keyword}%";
+    $stmt->execute([$keyword, $keyword, $keyword]);
+    return $stmt;
+    }
     public function create() {
         $query = "INSERT INTO " . $this->table_name . " (npm, nama, jurusan)
         VALUES (?, ?, ?)"; $stmt = $this->conn->prepare($query);
